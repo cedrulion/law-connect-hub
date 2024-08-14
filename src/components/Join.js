@@ -20,7 +20,7 @@ function Join() {
           <div className="flex justify-between gap-9 mb-4 p-8">
             <div className="bg-red-900 text-white py-2 px-4 rounded hover:bg-gray-200 flex flex-col items-center border border-white">
               <FaUserTie className="text-4xl mb-2" />
-              <Link to="/join-lawyer" className="">
+              <Link to="/signup" className="">
                 Join as a lawyer
               </Link>
             </div>
@@ -32,7 +32,7 @@ function Join() {
             </div>
           </div>
           <p className="mt-4">
-            Or <Link to="/signin" className="text-blue-500 hover:underline">Sign In?</Link>
+            Or <Link to="/login" className="text-blue-500 hover:underline">Sign In?</Link>
           </p>
         </div>
       </main>

@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaGavel, FaUserTie, FaUsers } from 'react-icons/fa';
 import pic from '../Assets/pic.png';
 import attorney from '../Assets/attorney.png';
+import { Link } from 'react-router-dom';
 
 function LandingPage() {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <div className="font-sans antialiased">
       {/* Header and Hero Section */}
@@ -15,7 +22,26 @@ function LandingPage() {
             <nav className="flex space-x-4">
               <a href="#" className="text-white py-2 px-4 hover:text-gray-300">Services</a>
               <a href="#" className="text-white py-2 px-4 hover:text-gray-300">Home</a>
-              <a href="#" className="bg-red-900 text-white py-2 px-4 rounded hover:bg-red-700">Sign In</a>
+              <div className="relative">
+                <button 
+                  onClick={toggleDropdown} 
+                  className="bg-red-900 text-white py-2 px-4 rounded hover:bg-red-700">
+                  Sign In
+                </button>
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-md">
+                    <Link to="/login" className="block px-4 py-2 text-red-900 hover:bg-gray-100">
+                      Sign in as a Client
+                    </Link>
+                    <Link to="/login" className="block px-4 py-2 text-red-900 hover:bg-gray-100">
+                      Sign in as a Lawyer
+                    </Link>
+                    <Link to="/join" className="block px-4 py-2 text-red-900 hover:bg-gray-100">
+                      Create Account
+                    </Link>
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
           <div className="flex flex-col justify-center items-center text-white text-center p-4 h-64 ">
