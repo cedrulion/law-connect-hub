@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Join() {
   return (
-    <div className="font-sans antialiased bg-gray-100 min-h-screen flex flex-col">
+    <div className="antialiased bg-gray-100 min-h-screen flex flex-col" style={{ fontFamily: 'roboto' }}>
       {/* Header */}
       <header className="p-4 flex justify-between items-center bg-white shadow-md">
         <div className="text-red-800 font-bold text-xl">LawConnect</div>

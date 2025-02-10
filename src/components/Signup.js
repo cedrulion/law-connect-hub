@@ -86,7 +86,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="">
+    <div className="" style={{ fontFamily: 'roboto' }}>
       <header className="p-4 flex justify-between items-center bg-white shadow-md">
         <div className="text-red-800 font-bold text-xl">LawConnect</div>
         <nav className="flex space-x-4 font-semibold">

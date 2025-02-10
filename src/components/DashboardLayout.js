@@ -29,11 +29,11 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white">
+    <div className="bg-gray-900 text-white" style={{ fontFamily: 'roboto' }}>
       {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
 
       <div className={`flex-grow ${isSidebarOpen ? 'ml-56' : 'ml-0'}`}>
-        <div className='font-roboto'>
+        <div className='font-sans'>
           <Navbar/>
           <Outlet/>
           </div>

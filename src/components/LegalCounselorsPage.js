@@ -37,7 +37,7 @@ const LegalCounselorsPage = () => {
   };
 
   return (
-     <div className="p-6 font-sans text-gray-800 bg-gray-200 min-h-screen">
+     <div className="p-6 text-gray-800 bg-gray-200 min-h-screen" style={{ fontFamily: 'roboto' }}>
       <h1 className="text-2xl font-bold mb-6">Legal Counselors</h1>
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
   {legalCounselors.map((counselor, index) => (

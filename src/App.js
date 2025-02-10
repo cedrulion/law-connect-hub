@@ -18,6 +18,9 @@ import ProfilePage from './components/ProfilePage';
 import BlogPage from './components/BlogPage';
 import MapSearch from './components/MapSearch';
 import LegalCounselorsPage from './components/LegalCounselorsPage'; 
+import CounselorsPage from './components/CounselorsPage'; 
+import UserPage from './components/UserPage'; 
+
 
 function App() {
   return (
@@ -43,7 +46,9 @@ function App() {
              <Route  path="message" element={<Message/>} />
               <Route path="appointment" element={<LegalCounselorsPage />} />
               <Route path="blog" element={<BlogPage />} />
-              <Route path="map-search" element={<MapSearch />} />
+              <Route path="map-search" element={<MapSearch />} /> 
+              <Route path="lawyer" element={<CounselorsPage />} />
+              <Route path="listuser" element={<UserPage />} />
                 </Route>
           
         </Routes>

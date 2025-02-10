@@ -48,7 +48,7 @@ const BlogPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-8" style={{ fontFamily: 'roboto' }}>
       <header className="mb-8">
         <h1 className="text-4xl font-bold text-center text-gray-800">LawConnect Hub Blog</h1>
         <p className="text-center text-gray-600">Insights and updates from the world of law</p>

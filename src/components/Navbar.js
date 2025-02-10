@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 bg-white shadow-md text-black">
+    <div className="flex items-center justify-between p-6 bg-white shadow-md text-black" style={{ fontFamily: 'roboto' }}>
       <div className="flex items-center">
         <input
           type="text"

@@ -5,7 +5,7 @@ const Modal = ({ show, onClose, counselor, onRequestAppointment }) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" style={{ fontFamily: 'roboto' }}>
       <div className="bg-white p-8 rounded-lg shadow-lg relative w-3/4 max-w-3xl">
         <button className="absolute top-2 right-2 text-gray-500 bg-red-800 hover:text-gray-800" onClick={onClose}>
           <FaTimes size={24} />

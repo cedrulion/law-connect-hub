@@ -21,18 +21,15 @@ const Lawoverview = () => {
         const response = await axios.get('http://localhost:5000/api/appointments', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log('Fetched appointments:', response.data); // Debugging
 
         const lawyerAppointments = response.data.filter(
           (appointment) => appointment.lawyerId._id === loggedInUser._id
         );
         setAppointments(lawyerAppointments);
 
-        // Notifications: Latest appointments
-        const latestAppointments = lawyerAppointments.slice(-5); // Get the latest 5 appointments
+        const latestAppointments = lawyerAppointments.slice(-5);
         setNotifications(latestAppointments);
 
-        // Appointment Requests: Appointments with status 'PENDING'
         const pendingRequests = lawyerAppointments.filter(
           (appointment) => appointment.status === 'PENDING'
         );
@@ -40,7 +37,6 @@ const Lawoverview = () => {
 
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching appointments:', err); // Debugging
         setError(err.response?.data?.message || 'Error fetching appointments');
         setLoading(false);
       }
@@ -54,8 +50,17 @@ const Lawoverview = () => {
   };
 
   const handleAddAppointment = () => {
-    // Placeholder function for adding new appointments
     console.log('Add new appointment clicked');
+  };
+
+  const highlightDates = ({ date, view }) => {
+    if (view === 'month') {
+      const appointmentDates = appointments.map(appointment => new Date(appointment.date).toDateString());
+      if (appointmentDates.includes(date.toDateString())) {
+        return 'highlight';
+      }
+    }
+    return null;
   };
 
   if (loading) {
@@ -67,7 +72,16 @@ const Lawoverview = () => {
   }
 
   return (
-    <div className="p-6 font-sans text-gray-800 bg-gray-100 min-h-screen">
+    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
+      <style>
+        {`
+          .highlight {
+            background-color: #a0e4a0 !important;
+            color: white !important;
+            border-radius: 50%;
+          }
+        `}
+      </style>
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold">Welcome back {loggedInUser.fullName}</h1>
@@ -77,7 +91,7 @@ const Lawoverview = () => {
           <div className="bg-white p-4 rounded shadow-md flex items-center hover:bg-gray-300 cursor-pointer" onClick={handleAppointmentClick}>
             <FaCalendarCheck className="text-xl text-gray-600" />
             <div className="ml-2">
-              <p className="text-sm">Appointments</p>
+              <p className="text-sm">Requested Appointments</p>
               <p className="text-2xl font-bold">{appointments.length}</p>
             </div>
           </div>
@@ -101,7 +115,7 @@ const Lawoverview = () => {
       <div className="mt-6 flex">
         <div className="flex-1 bg-white p-6 rounded shadow-md">
           <h2 className="text-xl font-bold mb-4">Notifications</h2>
-          <h2 className=" font-semibold mb-4">Appointment Requests</h2>
+          <h2 className="font-semibold mb-4">Appointment Requests</h2>
           {appointmentRequests.length === 0 ? (
             <p>No pending appointment requests.</p>
           ) : (
@@ -122,14 +136,17 @@ const Lawoverview = () => {
 
         <div className="w-1/4 bg-white p-6 rounded shadow-md ml-6">
           <h2 className="text-xl font-bold mb-4">Appointment Date</h2>
-          <Calendar className="mb-4" />
+          <Calendar
+            className="mb-4"
+            tileClassName={highlightDates}
+          />
           {appointments.length === 0 ? (
             <p>No appointments scheduled.</p>
           ) : (
             appointments.map(appointment => (
               <div key={appointment._id} className="flex items-center mb-4">
                 <div className="ml-4">
-                  <p className="text-sm font-bold">{appointment.clientId.fullName}</p> {/* Assuming clientId has fullName */}
+                  <p className="text-sm font-bold">{appointment.clientId.fullName}</p>
                   <p className="text-xs text-gray-500">{new Date(appointment.date).toLocaleString()}</p>
                   <p className="text-xs text-gray-500">{appointment.status}</p>
                 </div>

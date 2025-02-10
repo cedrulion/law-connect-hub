@@ -47,7 +47,7 @@ const AppointmentDetailsPage = () => {
   }
 
   return (
-    <div className="p-6 font-sans text-gray-800 bg-gray-100 min-h-screen">
+    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
       <div className="max-w-2xl mx-auto bg-white p-6 rounded shadow-md">
         <h1 className="text-3xl font-bold mb-6 text-center text-blue-700">Appointment Details</h1>
         <div className="mb-4">

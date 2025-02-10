@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
-import { FaTrashAlt, FaEye, FaCalendarAlt , FaUser, FaExclamationCircle} from 'react-icons/fa';
+import { FaTrashAlt, FaEye, FaCalendarAlt, FaUser, FaExclamationCircle } from 'react-icons/fa';
 
 const UserAppointmentsPage = () => {
   const [appointments, setAppointments] = useState([]);
@@ -12,7 +12,6 @@ const UserAppointmentsPage = () => {
   const [appointmentToCancel, setAppointmentToCancel] = useState(null);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
-
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
   useEffect(() => {
@@ -72,46 +71,39 @@ const UserAppointmentsPage = () => {
   }
 
   return (
-    <div className="p-6 font-sans text-gray-800 bg-gray-100 min-h-screen">
-      <div className="bg-white p-6 rounded shadow-md">
-        <h1 className="text-3xl font-bold mb-6">Your Appointments</h1>
+    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600">Your Appointments</h1>
         {appointments.length === 0 ? (
-          <p className="text-gray-600">No appointments found.</p>
+          <p className="text-gray-600 text-center">No appointments found.</p>
         ) : (
-          <div className="mt-6 flex flex-wrap gap-4">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {appointments.map(appointment => (
               <div
                 key={appointment._id}
-                className="bg-white p-6 rounded shadow-md w-full md:w-1/2 lg:w-1/3 hover:shadow-lg hover:translate-y-1 transition-transform duration-200"
+                className="bg-white p-6 rounded-lg shadow-md hover:bg-gray-300 transition-shadow duration-200"
               >
-                <div>
-                  <p className="text-sm">
-                    <FaUser className="inline mr-2 text-blue-600" />
-                    <strong>Client:</strong> {appointment.clientId.fullName}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm">
+                <div className="mb-4">
+                  
+                  <p className="text-lg font-semibold text-gray-700">
                     <FaUser className="inline mr-2 text-green-600" />
-                    <strong>Lawyer:</strong> {appointment.lawyerId.fullName}
+                    Lawyer: {appointment.lawyerId.fullName}
                   </p>
                 </div>
-                <div>
-                  <p className="text-sm">
+                <div className="mb-4">
+                  <p className="text-sm text-gray-600">
                     <FaCalendarAlt className="inline mr-2 text-yellow-600" />
-                    <strong>Date:</strong> {new Date(appointment.date).toLocaleString()}
+                    Date: {new Date(appointment.date).toLocaleString()}
                   </p>
-                </div>
-                <div>
-                  <p className="text-sm">
+                  <p className="text-sm text-gray-600">
                     <FaExclamationCircle className="inline mr-2 text-red-600" />
-                    <strong>Status:</strong> {appointment.status}
+                    Status: {appointment.status}
                   </p>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mt-4">
                   {appointment.status === 'PENDING' && (
                     <button
-                      className="bg-red-500 text-white px-4 py-2 rounded flex items-center hover:bg-red-600"
+                      className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center hover:bg-red-600 transition-colors duration-200"
                       onClick={() => openModal(appointment._id)}
                     >
                       <FaTrashAlt className="mr-2" />
@@ -119,7 +111,7 @@ const UserAppointmentsPage = () => {
                     </button>
                   )}
                   <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded flex items-center hover:bg-blue-600"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center hover:bg-blue-600 transition-colors duration-200"
                     onClick={() => handleAppointmentClick(appointment._id)}
                   >
                     <FaEye className="mr-2" />
@@ -135,17 +127,17 @@ const UserAppointmentsPage = () => {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         contentLabel="Cancel Appointment Confirmation"
-        className="bg-white p-6 rounded shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        overlayClassName="fixed inset-0 bg-gray-900 bg-opacity-75"
+        className="bg-white p-6 rounded-lg shadow-lg max-w-sm mx-auto"
+        overlayClassName="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
       >
-        <h2 className="text-xl font-semibold mb-4">Are you sure you want to cancel your appointment?</h2>
+        <h2 className="text-xl font-semibold mb-4">Are you sure you want to cancel this appointment?</h2>
         <div className="flex justify-end mt-4">
-          <button onClick={closeModal} className="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2">No</button>
+          <button onClick={closeModal} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2">No</button>
           <button
             onClick={() => handleCancel(appointmentToCancel)}
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="bg-red-500 text-white px-4 py-2 rounded-md"
           >
-            Yes,Cancel
+            Yes, Cancel
           </button>
         </div>
       </Modal>

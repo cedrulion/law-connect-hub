@@ -33,7 +33,7 @@ const AppointmentForm = ({ counselor, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" style={{ fontFamily: 'roboto' }}>
       <div className="bg-white p-8 rounded-lg shadow-lg relative w-3/4 max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Request Appointment</h2>
         <form onSubmit={handleSubmit}>

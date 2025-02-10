@@ -78,8 +78,8 @@ const Overview = () => {
   ];
 
   return (
-    <div className="p-6 font-sans text-gray-800 bg-gray-100 min-h-screen">
-      <div className="flex justify-between items-center">
+    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
+      <div className=" p-6 flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold">Welcome back <span>{loggedInUser.fullName}</span></h1>
           <p className="text-sm">Have a great day...</p>
@@ -146,15 +146,7 @@ const Overview = () => {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap">
-        {appointments.map(appointment => (
-          <div key={appointment._id} className="bg-white p-4 rounded shadow-md m-2 cursor-pointer">
-            <p className="text-sm"><strong>Lawyer:</strong> {appointment.lawyerId.fullName}</p>
-            <p className="text-sm"><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
-            <p className="text-sm"><strong>Status:</strong> {appointment.status}</p>
-          </div>
-        ))}
-      </div>
+      
 
       <Modal show={showModal} onClose={closeModal} counselor={selectedCounselor} onRequestAppointment={handleRequestAppointment} />
       {showAppointmentForm && <AppointmentForm counselor={selectedCounselor} onClose={closeAppointmentForm} />}
