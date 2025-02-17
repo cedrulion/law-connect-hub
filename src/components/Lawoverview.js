@@ -64,94 +64,124 @@ const Lawoverview = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="text-blue-600 text-xl">Loading...</div>
+    </div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="text-red-600 text-xl">Error: {error}</div>
+    </div>;
   }
 
   return (
-    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
+    <div className="p-6 text-gray-800 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen font-sans">
       <style>
         {`
           .highlight {
-            background-color: #a0e4a0 !important;
+            background-color: #3b82f6 !important;
             color: white !important;
             border-radius: 50%;
           }
+          .react-calendar {
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            border-radius: 0.5rem;
+            padding: 1rem;
+          }
+          .react-calendar__tile--active {
+            background: #3b82f6 !important;
+            color: white !important;
+          }
+          .react-calendar__tile:enabled:hover {
+            background-color: #93c5fd !important;
+          }
         `}
       </style>
-      <div className="flex justify-between items-center">
+      
+      <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold">Welcome back {loggedInUser.fullName}</h1>
-          <p className="text-sm">Have a great day...</p>
+          <h1 className="text-3xl font-bold text-blue-900">Welcome back, {loggedInUser.fullName}</h1>
+          <p className="text-blue-600 mt-2">Have a great day ahead!</p>
         </div>
         <div className="flex space-x-4">
-          <div className="bg-white p-4 rounded shadow-md flex items-center hover:bg-gray-300 cursor-pointer" onClick={handleAppointmentClick}>
-            <FaCalendarCheck className="text-xl text-gray-600" />
-            <div className="ml-2">
-              <p className="text-sm">Requested Appointments</p>
-              <p className="text-2xl font-bold">{appointments.length}</p>
+          <div 
+            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center hover:bg-blue-50 cursor-pointer border border-blue-100" 
+            onClick={handleAppointmentClick}
+          >
+            <FaCalendarCheck className="text-2xl text-blue-600" />
+            <div className="ml-3">
+              <p className="text-sm text-blue-900 font-medium">Requested Appointments</p>
+              <p className="text-3xl font-bold text-blue-600">{appointments.length}</p>
             </div>
           </div>
-          <button className="bg-black text-white p-4 rounded shadow-md flex items-center" onClick={handleAddAppointment}>
-            + Add New Appointment
-          </button>
         </div>
       </div>
 
-      <div className="mt-6 flex">
-        <button className="flex-1 bg-gray-200 p-6 rounded shadow-md flex items-center justify-center mr-2">
-          <FaBell className="text-3xl text-gray-600" />
-          <p className="ml-2 text-xl">Notifications</p>
+      <div className="grid grid-cols-2 gap-6 mb-8">
+        <button className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center hover:bg-blue-50 border border-blue-100">
+          <FaBell className="text-3xl text-blue-600" />
+          <p className="ml-3 text-xl text-blue-900 font-medium">Notifications</p>
         </button>
-        <button className="flex-1 bg-gray-200 p-6 rounded shadow-md flex items-center justify-center ml-2">
-          <FaBlog className="text-3xl text-gray-600" />
-          <p className="ml-2 text-xl">Blogspot</p>
+        <button className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center hover:bg-blue-50 border border-blue-100">
+          <FaBlog className="text-3xl text-blue-600" />
+          <p className="ml-3 text-xl text-blue-900 font-medium">Blogspot</p>
         </button>
       </div>
 
-      <div className="mt-6 flex">
-        <div className="flex-1 bg-white p-6 rounded shadow-md">
-          <h2 className="text-xl font-bold mb-4">Notifications</h2>
-          <h2 className="font-semibold mb-4">Appointment Requests</h2>
+      <div className="grid grid-cols-4 gap-6">
+        <div className="col-span-3 bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-blue-900 mb-6">Notifications</h2>
+          <h3 className="text-xl font-semibold text-blue-800 mb-4">Appointment Requests</h3>
           {appointmentRequests.length === 0 ? (
-            <p>No pending appointment requests.</p>
+            <p className="text-gray-600">No pending appointment requests.</p>
           ) : (
-            appointmentRequests.map(request => (
-              <div key={request._id} className="flex items-center mb-4">
-                <div className="ml-4">
-                  <p className="text-sm font-bold">{request.lawyerId.fullName}</p>
-                  <p className="text-xs text-gray-500">{new Date(request.date).toLocaleString()}</p>
-                  <p className={`text-xs flex items-center ${request.status === 'Confirmed' ? 'text-green-500' : 'text-red-500'}`}>
-                    {request.status === 'Confirmed' ? <FaCheck className="mr-1" /> : <FaTimes className="mr-1" />}
-                    {request.status}
-                  </p>
+            <div className="space-y-4">
+              {appointmentRequests.map(request => (
+                <div key={request._id} className="flex items-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="ml-4 flex-grow">
+                    <p className="text-lg font-bold text-blue-900">{request.lawyerId.fullName}</p>
+                    <p className="text-sm text-gray-600">{new Date(request.date).toLocaleString()}</p>
+                    <div className={`mt-2 inline-flex items-center px-3 py-1 rounded-full text-sm ${
+                      request.status === 'Confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {request.status === 'Confirmed' ? (
+                        <FaCheck className="mr-2" />
+                      ) : (
+                        <FaTimes className="mr-2" />
+                      )}
+                      {request.status}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
 
-        <div className="w-1/4 bg-white p-6 rounded shadow-md ml-6">
-          <h2 className="text-xl font-bold mb-4">Appointment Date</h2>
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-blue-900 mb-6">Appointment Date</h2>
           <Calendar
-            className="mb-4"
+            className="mb-6"
             tileClassName={highlightDates}
           />
           {appointments.length === 0 ? (
-            <p>No appointments scheduled.</p>
+            <p className="text-gray-600">No appointments scheduled.</p>
           ) : (
-            appointments.map(appointment => (
-              <div key={appointment._id} className="flex items-center mb-4">
-                <div className="ml-4">
-                  <p className="text-sm font-bold">{appointment.clientId.fullName}</p>
-                  <p className="text-xs text-gray-500">{new Date(appointment.date).toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">{appointment.status}</p>
+            <div className="space-y-4">
+              {appointments.map(appointment => (
+                <div key={appointment._id} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <p className="font-bold text-blue-900">{appointment.clientId.fullName}</p>
+                  <p className="text-sm text-gray-600">{new Date(appointment.date).toLocaleString()}</p>
+                  <div className={`mt-2 inline-flex items-center px-3 py-1 rounded-full text-sm ${
+                    appointment.status === 'Confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                  }`}>
+                    {appointment.status}
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>

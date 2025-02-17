@@ -12,7 +12,7 @@ function LandingPage() {
   };
 
   return (
-    <div className="antialiased" style={{ fontFamily: 'roboto' }}>
+    <div className="antialiased text-xl" style={{ fontFamily: 'roboto' }}>
       {/* Header and Hero Section */}
       <header className="relative">
         <img src={pic} alt="Background" className="w-full h-96 object-cover" />

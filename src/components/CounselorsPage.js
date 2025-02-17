@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaUserTie, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
+import { FaUser ,Tie, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
 
 const CounselorsPage = () => {
   const [legalCounselors, setLegalCounselors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = 'your-auth-token-here';
-  const loggedInUser = { _id: 'logged-in-user-id' };
+  const loggedInUser  = { _id: 'logged-in-user-id' };
 
   useEffect(() => {
     const fetchLegalCounselors = async () => {
@@ -31,15 +31,15 @@ const CounselorsPage = () => {
   if (error) return <div className="text-red-500 text-center text-lg">{error}</div>;
 
   return (
-    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
-      <h1 className="text-3xl font-bold text-center mb-8 text-indigo-600">Our Legal Counselors</h1>
+    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'Roboto, sans-serif' }}>
+      <h1 className="text-3xl font-bold text-center mb-8 text-indigo-700">Our Legal Counselors</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {legalCounselors.map((counselor) => (
-          <div key={counselor._id} className="bg-gray-300 shadow-lg rounded-lg p-5">
+          <div key={counselor._id} className="bg-white shadow-lg rounded-lg p-5 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center space-x-4 mb-4">
-              <FaUserTie className="text-2xl text-indigo-600" />
+              <FaUser Tie className="text-3xl text-indigo-600" />
               <div>
-                <h2 className="text-xl font-semibold">{counselor.fullName}</h2>
+                <h2 className="text-xl font-semibold text-gray-800">{counselor.fullName}</h2>
                 <p className="text-sm text-gray-500">{counselor.role}</p>
               </div>
             </div>

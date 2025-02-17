@@ -42,7 +42,7 @@ const Login = () => {
         } else if (loggedInUser.role === 'CLIENT') {
           navigate('/dashboard/overview');
         } else {
-          navigate('/dashboard/overview'); // Default navigation if role is unknown
+          navigate('/dashboard/listuser'); // Default navigation if role is unknown
         }
       } catch (error) {
         toast.error('Login failed. Please check your credentials and try again.', {

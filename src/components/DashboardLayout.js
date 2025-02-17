@@ -29,7 +29,7 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white" style={{ fontFamily: 'roboto' }}>
+    <div className="bg-gray-100 text-gray-800" style={{ fontFamily: 'roboto' }}>
       {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
 
       <div className={`flex-grow ${isSidebarOpen ? 'ml-56' : 'ml-0'}`}>

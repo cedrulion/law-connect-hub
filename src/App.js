@@ -20,6 +20,12 @@ import MapSearch from './components/MapSearch';
 import LegalCounselorsPage from './components/LegalCounselorsPage'; 
 import CounselorsPage from './components/CounselorsPage'; 
 import UserPage from './components/UserPage'; 
+import Statistics from './components/Statistics';
+import ClientDashboard from './components/ClientDashboard';
+import NewCaseForm from './components/NewCaseForm';
+import CaseDetailView from './components/CaseDetailView';
+import LawyerDashboard from './components/LawyerDashboard';
+import AdminAssignCase from './components/AdminAssignCase';
 
 
 function App() {
@@ -49,6 +55,12 @@ function App() {
               <Route path="map-search" element={<MapSearch />} /> 
               <Route path="lawyer" element={<CounselorsPage />} />
               <Route path="listuser" element={<UserPage />} />
+              <Route path="statistics" element={<Statistics />} />
+              <Route path="case" element={<ClientDashboard />} /> 
+              <Route path="new-case" element={<NewCaseForm />} /> 
+              <Route path="caseview/:id" element={<CaseDetailView />} /> 
+              <Route path="cases" element={<LawyerDashboard />} /> 
+              <Route path="admincases" element={<AdminAssignCase />} /> 
                 </Route>
           
         </Routes>

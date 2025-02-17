@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaSearchLocation, FaBlog, FaCalendarCheck, FaUserAlt, FaFileAlt, FaEnvelope } from 'react-icons/fa';
-import Modal from './Modal';  // Import the Modal component
-import AppointmentForm from './AppointmentForm';  // Import the AppointmentForm component
+import Modal from './Modal';
+import AppointmentForm from './AppointmentForm';
 import { useNavigate } from 'react-router-dom';
 
 const Overview = () => {
@@ -77,67 +77,92 @@ const Overview = () => {
     { id: 2, icon: <FaEnvelope />, user: 'Muhire', action: 'sent you a message', time: '3 hours ago' },
   ];
 
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="text-purple-600 text-xl">Loading...</div>
+    </div>;
+  }
+
+  if (error) {
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="text-red-600 text-xl">Error: {error}</div>
+    </div>;
+  }
+
   return (
-    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
-      <div className=" p-6 flex justify-between items-center">
+    <div className="p-6 text-gray-800 bg-gradient-to-br from-purple-50 to-blue-50 min-h-screen font-sans">
+      <div className="p-6 flex justify-between items-center bg-white rounded-xl shadow-lg">
         <div>
-          <h1 className="text-2xl font-bold">Welcome back <span>{loggedInUser.fullName}</span></h1>
-          <p className="text-sm">Have a great day...</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            Welcome back, <span className="font-extrabold">{loggedInUser.fullName}</span>
+          </h1>
+          <p className="text-purple-600 mt-2">Have a great day ahead!</p>
         </div>
         <div className="flex space-x-4">
-          <div className="bg-white p-4 rounded shadow-md flex items-center hover:bg-gray-300 cursor-pointer" onClick={() => handleAppointmentClick()}>
-            <FaCalendarCheck className="text-xl text-gray-600" />
+          <div 
+            className="bg-gradient-to-r from-purple-500 to-blue-500 p-4 rounded-xl shadow-lg flex items-center hover:from-purple-600 hover:to-blue-600 cursor-pointer transition-all duration-300 text-white" 
+            onClick={handleAppointmentClick}
+          >
+            <FaCalendarCheck className="text-xl" />
             <div className="ml-2">
               <p className="text-sm">Appointments</p>
               <p className="text-2xl font-bold">{appointments.length}</p>
             </div>
           </div>
-          <button className="bg-black text-white p-4 rounded shadow-md flex items-center">
+          <button className="bg-black text-white p-4 rounded-xl shadow-lg flex items-center hover:bg-gray-800 transition-colors duration-300">
             Extensive search
           </button>
         </div>
       </div>
 
-      <div className="mt-6 flex">
-        <button className="flex-1 bg-gray-200 p-6 rounded shadow-md flex items-center justify-center mr-2"
-        onClick={() => navigate('/dashboard/map-search')}            
->
-          <FaSearchLocation className="text-3xl text-gray-600" />
-          <p className="ml-2 text-xl">Map searching</p>
+      <div className="mt-6 grid grid-cols-2 gap-6">
+        <button 
+          onClick={() => navigate('/dashboard/map-search')}
+          className="bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-xl shadow-lg flex items-center justify-center hover:from-green-500 hover:to-emerald-600 transition-all duration-300 text-white"
+        >
+          <FaSearchLocation className="text-3xl" />
+          <p className="ml-2 text-xl font-semibold">Map searching</p>
         </button>
         <button
-      className="flex-1 bg-gray-200 p-6 rounded shadow-md flex items-center justify-center ml-2"
-      onClick={() => navigate('/dashboard/blog')}
-         >
-           <FaBlog className="text-3xl text-gray-600" />
-           <p className="ml-2 text-xl">Blogspot</p>
-           </button> 
-
+          onClick={() => navigate('/dashboard/blog')}
+          className="bg-gradient-to-r from-orange-400 to-pink-500 p-6 rounded-xl shadow-lg flex items-center justify-center hover:from-orange-500 hover:to-pink-600 transition-all duration-300 text-white"
+        >
+          <FaBlog className="text-3xl" />
+          <p className="ml-2 text-xl font-semibold">Blogspot</p>
+        </button>
       </div>
 
-      <div className="mt-6 flex">
-        <div className="flex-1 bg-white p-6 rounded shadow-md">
-          <h2 className="text-xl font-bold mb-4">Notifications</h2>
+      <div className="mt-6 grid grid-cols-4 gap-6">
+        <div className="col-span-3 bg-white p-6 rounded-xl shadow-lg">
+          <h2 className="text-2xl font-bold text-purple-600 mb-6">Notifications</h2>
           {notifications.map(notification => (
-            <div key={notification.id} className="flex items-center mb-4">
-              <div className="bg-gray-200 p-4 rounded-full">
+            <div key={notification.id} className="flex items-center mb-4 p-4 hover:bg-purple-50 rounded-lg transition-colors duration-300">
+              <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-4 rounded-full text-white">
                 {notification.icon}
               </div>
               <div className="ml-4">
-                <p className="text-sm"><strong>{notification.user}</strong> {notification.action}</p>
+                <p className="text-sm">
+                  <strong className="text-purple-600">{notification.user}</strong> {notification.action}
+                </p>
                 <p className="text-xs text-gray-500">{notification.time}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="w-1/4 bg-white p-6 rounded shadow-md ml-6">
-          <h2 className="text-xl font-bold mb-4">Suggested legal counselors</h2>
+        <div className="bg-white p-6 rounded-xl shadow-lg">
+          <h2 className="text-2xl font-bold text-purple-600 mb-6">Suggested legal counselors</h2>
           {legalCounselors.map((counselor, index) => (
-            <div key={index} className="flex items-center mb-4 cursor-pointer" onClick={() => handleCounselorClick(counselor)}>
-              <FaUserAlt className="text-2xl text-gray-600" />
+            <div 
+              key={index} 
+              className="flex items-center mb-4 p-4 cursor-pointer hover:bg-purple-50 rounded-lg transition-colors duration-300"
+              onClick={() => handleCounselorClick(counselor)}
+            >
+              <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-3 rounded-full text-white">
+                <FaUserAlt className="text-xl" />
+              </div>
               <div className="ml-4">
-                <p className="text-sm font-bold">{counselor.fullName}</p>
+                <p className="text-sm font-bold text-purple-600">{counselor.fullName}</p>
                 <p className="text-xs text-gray-500">{counselor.address}</p>
                 <p className="text-xs text-gray-500">{counselor.phone}</p>
               </div>
@@ -145,8 +170,6 @@ const Overview = () => {
           ))}
         </div>
       </div>
-
-      
 
       <Modal show={showModal} onClose={closeModal} counselor={selectedCounselor} onRequestAppointment={handleRequestAppointment} />
       {showAppointmentForm && <AppointmentForm counselor={selectedCounselor} onClose={closeAppointmentForm} />}

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaCheckCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const JoinClient = () => {
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -12,10 +15,11 @@ const JoinClient = () => {
     country: '',
     password: '',
     confirmPassword: '',
-    role:"",
+    role:"CLIENT",
     areasOfLaw: [], // Assuming this will be an array of strings
   });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +40,7 @@ const JoinClient = () => {
       if (!formData.confirmPassword) formErrors.confirmPassword = 'Confirm Password is required';
       if (formData.password !== formData.confirmPassword) formErrors.confirmPassword = 'Passwords do not match';
       if (!formData.areasOfLaw) formErrors.areasOfLaw = 'At least one Area of Law is required';
-      if (!formData.role) formErrors.role = 'role is required';
+     
     }
 
     setErrors(formErrors);
@@ -55,18 +59,36 @@ const JoinClient = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
-        console.log('Signup successful', response.data);
-      } catch (error) {
-        console.error('There was an error signing up!', error);
+    if (!validate()) {
+      toast.error('Please fill in all required fields correctly');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      toast.success('Signup successful! Redirecting to login...');
+      
+      // Wait for toast to be visible before redirecting
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+      
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || 'An error occurred during signup';
+      toast.error(errorMessage);
+      
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="" style={{ fontFamily: 'roboto' }}>
+      <ToastContainer position="top-right" autoClose={3000} />
       <header className="p-4 flex justify-between items-center bg-white shadow-md">
         <div className="text-red-800 font-bold text-xl">LawConnect</div>
         <nav className="flex space-x-4 font-semibold">
@@ -117,24 +139,16 @@ const JoinClient = () => {
                         <input type="text" name="areasOfLaw" placeholder="Areas of Law (comma-separated)" value={formData.areasOfLaw} onChange={handleChange} className="block w-full p-2 mt-2 border rounded-md focus:ring focus:ring-opacity-50 focus:ring-blue-400 focus:border-blue-400" />
                         {errors.areasOfLaw && <p className="text-red-500">{errors.areasOfLaw}</p>}
                       </div>
-                    <div>
-  <select
-    name="role"
-    value={formData.role}
-    onChange={handleChange}
-    className="block w-full p-2 mt-2 border rounded-md focus:ring focus:ring-opacity-50 focus:ring-blue-400 focus:border-blue-400"
-  >
-    <option value="" disabled>Select Role</option>
-    <option value="CLIENT">Client</option>
-    <option value="LAWYER">Lawyer</option>
-  </select>
-  {errors.role && <p className="text-red-500">{errors.role}</p>}
-</div>
-
                 </div>
-                <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-blue-400">
-                  Submit
-                </button>
+                <button 
+          type="submit" 
+          disabled={isSubmitting}
+          className={`px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-green-400 ${
+            isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
               </form>
             </div>
           </div>
