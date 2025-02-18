@@ -71,7 +71,7 @@ const UserAppointmentsPage = () => {
   }
 
   return (
-    <div className="p-6 text-gray-800 bg-gray-100 min-h-screen" style={{ fontFamily: 'roboto' }}>
+    <div className="p-6 text-gray-800 bg-gray-200 min-h-screen" style={{ fontFamily: 'roboto' }}>
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600">Your Appointments</h1>
         {appointments.length === 0 ? (

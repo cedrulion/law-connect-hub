@@ -126,7 +126,7 @@ const NewCaseForm = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl bg-gray-100">
+    <div className="container mx-auto px-4 py-4 max-w-2xl bg-gray-100">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Request Legal Assistance</h1>
       
       {errors.submit && (
@@ -136,7 +136,8 @@ const NewCaseForm = () => {
         </div>
       )}
       
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 text-gray-800">
+      <form onSubmit={handleSubmit} className="bg-white flex gap-4 rounded-lg shadow-md p-8  text-gray-800">
+        <div>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700 font-medium mb-2">
             Case Title*
@@ -176,7 +177,8 @@ const NewCaseForm = () => {
             <p className="mt-1 text-sm text-red-600">{errors.description}</p>
           )}
         </div>
-        
+        </div>
+        <div>
         <div className="mb-4">
           <label htmlFor="legalCategory" className="block text-gray-700 font-medium mb-2">
             Legal Category*
@@ -201,7 +203,7 @@ const NewCaseForm = () => {
             <p className="mt-1 text-sm text-red-600">{errors.legalCategory}</p>
           )}
         </div>
-        
+       
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">
             Urgency Level
@@ -320,6 +322,7 @@ const NewCaseForm = () => {
             {isSubmitting && <FaSpinner className="animate-spin mr-2" />}
             Submit Case
           </button>
+        </div>
         </div>
       </form>
     </div>

@@ -38,7 +38,7 @@ const ClientDashboard = () => {
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-100 ml-4">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">My Legal Cases</h1>
+        <h1 className="text-2xl font-bold text-indigo-600">My Legal Cases</h1>
         <Link 
           to="/dashboard/new-case" 
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center"

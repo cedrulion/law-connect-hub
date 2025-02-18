@@ -16,6 +16,12 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { 
+  FaCalendarAlt, 
+  FaFilePdf, 
+  FaChartPie, 
+  FaChartBar 
+} from "react-icons/fa";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -29,7 +35,7 @@ const Statistics = () => {
     fetchData();
   }, []);
 
-  // Fetch cases data from the backend instead of appointments.
+  // Fetch cases data from the backend.
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/cases", {
@@ -102,19 +108,28 @@ const Statistics = () => {
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-lg p-8">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Case Statistics</h2>
+          <h2 className="flex items-center text-3xl font-bold text-gray-800">
+            <FaChartPie className="mr-3 text-blue-600" />
+            Case Statistics 
+            <span className="flex items-center ml-4 text-sm text-gray-500">
+              <FaCalendarAlt className="mr-1" /> 
+              {new Date().toLocaleDateString()}
+            </span>
+          </h2>
           <button
             onClick={downloadPDF}
-            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            className="flex items-center px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
           >
+            <FaFilePdf className="mr-2" />
             Download PDF
           </button>
         </div>
 
-        <div ref={chartRef}>
+        <div ref={chartRef} className="flex flex-col md:flex-row justify-between bg-gray-200 m-3 rounded p-4">
           {/* Pie Chart for Case Status Distribution */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold text-center text-gray-700 mb-6">
+          <div className="mb-12 md:mb-0 md:mr-4 flex-1">
+            <h3 className="flex items-center justify-center text-2xl font-semibold text-center text-gray-700 mb-6">
+              <FaChartPie className="mr-2 text-green-600" /> 
               Case Status Distribution
             </h3>
             <ResponsiveContainer width="100%" height={350}>
@@ -138,8 +153,9 @@ const Statistics = () => {
           </div>
 
           {/* Bar Chart for Weekly Case Submissions */}
-          <div>
-            <h3 className="text-2xl font-semibold text-center text-gray-700 mb-6">
+          <div className="flex-1">
+            <h3 className="flex items-center justify-center text-2xl font-semibold text-center text-gray-700 mb-6">
+              <FaChartBar className="mr-2 text-red-600" />
               Weekly Case Submissions
             </h3>
             <ResponsiveContainer width="100%" height={350}>

@@ -73,7 +73,7 @@ const Overview = () => {
   };
 
   const notifications = [
-    { id: 1, icon: <FaFileAlt />, user: 'John Doe', action: 'added a pdf file to your shared repo', time: '2 hours ago' },
+    { id: 1, icon: <FaFileAlt />, user: 'Bizimana', action: 'added a pdf file to your shared repo', time: '2 hours ago' },
     { id: 2, icon: <FaEnvelope />, user: 'Muhire', action: 'sent you a message', time: '3 hours ago' },
   ];
 
