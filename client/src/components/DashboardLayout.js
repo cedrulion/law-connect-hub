@@ -35,7 +35,7 @@ const DashboardLayout = () => {
       <div className={`flex-grow ${isSidebarOpen ? 'ml-56' : 'ml-0'}`}>
         <div className='font-sans'>
           <Navbar/>
-          <Outlet/>
+          <Outlet className="m-2"/>
           </div>
       
       </div>

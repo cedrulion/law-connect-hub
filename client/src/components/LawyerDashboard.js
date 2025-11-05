@@ -175,7 +175,7 @@ const LawyerDashboard = () => {
   const statusOptions = ['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'RESOLVED', 'CLOSED'];
   
   return (
-    <div className="mx-4 container mx-auto px-4 py-8 bg-gray-100">
+    <div className="mx-8 container mx-auto px-4 py-8 bg-gray-100">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Lawyer Dashboard</h1>
       
       {error && (
