@@ -26,6 +26,7 @@ import NewCaseForm from './components/NewCaseForm';
 import CaseDetailView from './components/CaseDetailView';
 import LawyerDashboard from './components/LawyerDashboard';
 import AdminAssignCase from './components/AdminAssignCase';
+import PaymentPage from './components/PaymentPage';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
            <Route  path="/login" element={<Login/>} ></Route> 
            <Route  path="/dashboard" element={<DashboardLayout/>} >
               <Route  path="overview" element={<Overview/>} />
+              <Route path="payment/:id" element={<PaymentPage />} />
              <Route  path="law-overview" element={<Lawoverview/>} />
              <Route path="appointments/:id" element={<AppointmentDetailsPage />} />
             <Route path="user/appointments" element={<UserAppointmentsPage />} /> 

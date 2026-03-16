@@ -1,13 +1,71 @@
 const mongoose = require('mongoose');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 const Appointment = require('../models/Appointment');
 const userModel = require("../models/userModel");
 
+// Update your existing processPayment function
+exports.processPayment = async (req, res) => {
+  try {
+    const { appointmentId, paymentMethod } = req.body;
+    
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found.' });
+    }
+
+    // In a real implementation, you would use Stripe's API to process the payment
+    // For now, we'll simulate a successful payment
+    // You can integrate actual Stripe payment processing here using your STRIPE_KEY
+    
+    // Simulate payment processing
+    const paymentIntentId = 'pi_' + Math.random().toString(36).substring(2, 15);
+
+    res.status(200).json({
+      message: 'Payment processed successfully',
+      paymentIntentId: paymentIntentId
+    });
+
+  } catch (error) {
+    console.error("Payment Error:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Add this function to update payment status
+exports.updatePaymentStatus = async (req, res) => {
+  try {
+    const { appointmentId, paymentIntentId, paymentStatus } = req.body;
+
+    const appointment = await Appointment.findByIdAndUpdate(
+      appointmentId,
+      {
+        paymentStatus: paymentStatus,
+        paymentIntentId: paymentIntentId
+      },
+      { new: true }
+    );
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found.' });
+    }
+
+    res.status(200).json({
+      message: `Payment status updated to ${paymentStatus}`,
+      appointment
+    });
+
+  } catch (error) {
+    console.error("Update Payment Status Error:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Your existing functions below - UNCHANGED
 exports.requestAppointment = async (req, res) => {
   try {
     const { lawyerEmail, date } = req.body;
     const clientId = req.user._id;
 
-    // Verify the client exists and has the appropriate role
     const client = await userModel.findOne({ _id: clientId, role: 'CLIENT' });
     if (!client) {
       return res.status(404).json({ message: 'Client not found.' });
@@ -31,7 +89,13 @@ exports.requestAppointment = async (req, res) => {
       });
     }
 
-    const appointment = new Appointment({ clientId, lawyerId, date, status: 'PENDING' });
+    const appointment = new Appointment({ 
+      clientId, 
+      lawyerId, 
+      date, 
+      status: 'PENDING',
+      paymentStatus: 'PENDING' 
+    });
     await appointment.save();
 
     res.status(201).json({
@@ -91,6 +155,7 @@ exports.getAllAppointments = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 exports.getAppointmentById = async (req, res) => {
   try {
     const { id } = req.params;

@@ -22,6 +22,15 @@ const appointmentSchema = new mongoose.Schema({
   },
   suggestedDate: {
     type: Date,
+  },
+  // Add these payment fields
+  paymentStatus: {
+    type: String,
+    enum: ['PENDING', 'PAID', 'FAILED'],
+    default: 'PENDING'
+  },
+  paymentIntentId: {
+    type: String,
   }
 }, { timestamps: true });
 

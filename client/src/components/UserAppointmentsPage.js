@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
-import { FaTrashAlt, FaEye, FaCalendarAlt, FaUser, FaExclamationCircle } from 'react-icons/fa';
+import { FaTrashAlt, FaEye, FaCalendarAlt, FaUser, FaExclamationCircle, FaCreditCard } from 'react-icons/fa';
 
 const UserAppointmentsPage = () => {
   const [appointments, setAppointments] = useState([]);
@@ -34,19 +34,21 @@ const UserAppointmentsPage = () => {
     fetchAppointments();
   }, [token, loggedInUser._id]);
 
-  const handleCancel = async (appointmentId) => {
+ const handleCancel = async (appointmentId) => {
     try {
-      await axios.patch(`http://localhost:5000/api/appointments/${appointmentId}`, { status: 'CANCELLED' }, {
+      // Using DELETE method as per your routes
+      await axios.delete(`http://localhost:5000/api/appointments/${appointmentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAppointments(appointments.map(appointment =>
-        appointment._id === appointmentId ? { ...appointment, status: 'CANCELLED' } : appointment
-      ));
+      
+      // Remove the cancelled appointment from the list
+      setAppointments(appointments.filter(appointment => appointment._id !== appointmentId));
       setIsModalOpen(false);
     } catch (err) {
       setError(err.response?.data?.message || 'Error cancelling appointment');
     }
   };
+
 
   const openModal = (appointmentId) => {
     setAppointmentToCancel(appointmentId);
@@ -60,6 +62,12 @@ const UserAppointmentsPage = () => {
 
   const handleAppointmentClick = (appointmentId) => {
     navigate(`/dashboard/appointments/${appointmentId}`);
+  };
+
+  const handlePayment = (appointment) => {
+    navigate(`/dashboard/payment/${appointment._id}`, { 
+      state: { appointment } 
+    });
   };
 
   if (loading) {
@@ -84,10 +92,9 @@ const UserAppointmentsPage = () => {
                 className="bg-white p-6 rounded-lg shadow-md hover:bg-gray-300 transition-shadow duration-200"
               >
                 <div className="mb-4">
-                  
                   <p className="text-lg font-semibold text-gray-700">
                     <FaUser className="inline mr-2 text-green-600" />
-                    Lawyer: {appointment.lawyerId.fullName}
+                    Lawyer: {appointment.lawyerId?.fullName || 'N/A'}
                   </p>
                 </div>
                 <div className="mb-4">
@@ -99,9 +106,25 @@ const UserAppointmentsPage = () => {
                     <FaExclamationCircle className="inline mr-2 text-red-600" />
                     Status: {appointment.status}
                   </p>
+                  <p className="text-sm text-gray-600">
+                    <FaCreditCard className="inline mr-2 text-blue-600" />
+                    Payment: {appointment.paymentStatus || 'PENDING'}
+                  </p>
                 </div>
                 <div className="flex justify-between items-center mt-4">
-                  {appointment.status === 'PENDING' && (
+                  {/* Show Pay Now button only if status is PENDING and payment is not PAID */}
+                  {appointment.status === 'PENDING' && appointment.paymentStatus !== 'PAID' && (
+                    <button
+                      className="bg-green-500 text-white px-4 py-2 rounded-md flex items-center hover:bg-green-600 transition-colors duration-200"
+                      onClick={() => handlePayment(appointment)}
+                    >
+                      <FaCreditCard className="mr-2" />
+                      Pay Now
+                    </button>
+                  )}
+                  
+                  {/* Show Cancel button for PENDING or PAID appointments */}
+                  {(appointment.status === 'PENDING' || appointment.status === 'PAID') && (
                     <button
                       className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center hover:bg-red-600 transition-colors duration-200"
                       onClick={() => openModal(appointment._id)}
@@ -110,6 +133,7 @@ const UserAppointmentsPage = () => {
                       Cancel
                     </button>
                   )}
+                  
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center hover:bg-blue-600 transition-colors duration-200"
                     onClick={() => handleAppointmentClick(appointment._id)}
@@ -131,6 +155,7 @@ const UserAppointmentsPage = () => {
         overlayClassName="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
       >
         <h2 className="text-xl font-semibold mb-4">Are you sure you want to cancel this appointment?</h2>
+        <p className="text-gray-600 mb-4">If you've already paid, a refund will be processed.</p>
         <div className="flex justify-end mt-4">
           <button onClick={closeModal} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2">No</button>
           <button

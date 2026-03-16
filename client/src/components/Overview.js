@@ -151,7 +151,7 @@ const Overview = () => {
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold text-purple-600 mb-6">Suggested legal counselors</h2>
+          <h2 className="text-2xl font-bold text-purple-600 mb-6">Book appointment with available lawyers</h2>
           {legalCounselors.map((counselor, index) => (
             <div 
               key={index} 
